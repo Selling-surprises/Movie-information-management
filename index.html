@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>影视资料管理系统门户 · 三系统导航</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <link rel="stylesheet" href="css/all.min.css">
+    <!-- 改为CDN引用Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f0f4fa 0%, #d9e2ec 100%);
+            color: #1e2b3a;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            transition: background 0.4s, color 0.4s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 深色主题 — 优雅暗色调 */
+        body.dark-theme {
+            background: linear-gradient(145deg, #121926, #0f172a);
+            color: #e2e8f0;
+        }
+
+        body.dark-theme .portal-header,
+        body.dark-theme .card,
+        body.dark-theme .footer {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            color: #e2e8f0;
+        }
+
+        body.dark-theme .card-btn {
+            background: linear-gradient(45deg, #4cc9f0, #3a6ea5);
+            box-shadow: 0 8px 20px rgba(0, 180, 255, 0.2);
+        }
+
+        body.dark-theme .theme-toggle-portal {
+            background: #1e293b;
+            border-color: #4cc9f0;
+            color: #a5f3fc;
+        }
+
+        .container {
+            max-width: 1300px;
+            width: 100%;
+        }
+
+        /* 门户头部 */
+        .portal-header {
+            text-align: center;
+            padding: 2.2rem 1.5rem;
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            border-radius: 48px 48px 24px 24px;
+            box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(67, 97, 238, 0.2);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #0b3d5f, #3a0ca3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .dark-theme h1 {
+            background: linear-gradient(145deg, #b5f0ff, #a0d8ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subhead {
+            font-size: 1.25rem;
+            color: #3c6e71;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .dark-theme .subhead {
+            color: #b0d4e0;
+        }
+
+        .theme-toggle-portal {
+            position: absolute;
+            top: 24px;
+            right: 30px;
+            background: white;
+            border: 1px solid #4361ee;
+            color: #4361ee;
+            padding: 8px 18px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.25s;
+            border: 1px solid #4cc9f0;
+            font-weight: 500;
+        }
+
+        .theme-toggle-portal:hover {
+            background: #4cc9f0;
+            color: white;
+            box-shadow: 0 0 18px #4cc9f0;
+        }
+
+        /* 卡片网格 */
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 35px;
+            justify-content: center;
+            margin: 50px 0 40px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 36px;
+            padding: 2.2rem 2rem;
+            flex: 1 1 360px;
+            max-width: 480px;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            box-shadow: 0 25px 40px -15px rgba(0, 35, 70, 0.15);
+            transition: all 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 35px 55px -15px rgba(67, 97, 238, 0.25);
+            border-color: #4cc9f0;
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            color: #4361ee;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(145deg, #4cc9f0, #4361ee);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            width: fit-content;
+        }
+
+        .card h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #0b3b5c;
+        }
+
+        .dark-theme .card h2 {
+            color: #cbd5e1;
+        }
+
+        .card-desc {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #334e68;
+            margin-bottom: 1.8rem;
+            flex: 1;
+        }
+
+        .dark-theme .card-desc {
+            color: #cbd5e1;
+        }
+
+        .card-btn {
+            background: linear-gradient(145deg, #4361ee, #3a56c9);
+            border: none;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.25s;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 10px;
+        }
+
+        .card-btn i {
+            font-size: 1.1rem;
+        }
+
+        .card-btn:hover {
+            background: linear-gradient(145deg, #3a56c9, #2a3d8f);
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px #4361ee66;
+        }
+
+        .footer {
+            margin-top: 65px;
+            padding: 24px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(8px);
+            border-radius: 60px 60px 30px 30px;
+            color: #3c5a6b;
+            font-size: 0.95rem;
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            width: 100%;
+        }
+
+        .dark-theme .footer {
+            color: #a1c6d7;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 700px) {
+            body { padding: 1.2rem; }
+            h1 { font-size: 2rem; }
+            .portal-header { padding: 1.8rem 1rem; }
+            .theme-toggle-portal { 
+                position: static; 
+                margin: 20px auto 0;
+                width: fit-content;
+            }
+            .card { padding: 1.8rem; }
+        }
+
+        /* 标签小提示 */
+        .notice-tag {
+            background: rgba(76, 201, 240, 0.15);
+            padding: 8px 20px;
+            border-radius: 50px;
+            color: #1f5068;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dark-theme .notice-tag {
+            color: #b5e2f0;
+        }
+
+        i {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 门户头部 —— 三系统导航 + 主题切换 -->
+        <header class="portal-header fade-in">
+            <h1><i class="fas fa-cubes"></i> 影视·番剧·资料 管理中枢</h1>
+            <div class="subhead">
+                <span class="notice-tag"><i class="fas fa-link"></i> 三系统无缝跳转</span>
+                <span class="notice-tag"><i class="fas fa-arrow-left"></i> 各系统已加「返回主页」</span>
+            </div>
+            <button class="theme-toggle-portal" id="portalThemeToggle">
+                <i class="fas fa-moon"></i> 深色主题
+            </button>
+        </header>
+
+        <!-- 核心导航卡片：三个子系统入口 -->
+        <div class="card-grid">
+            <!-- 卡片1: 成人影视资料管理系统 -->
+            <div class="card fade-in delay-1">
+                <div class="card-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h2>成人影视资料库</h2>
+                <div class="card-desc">
+                    完整管理成人影片、三级片资料。支持JSON导入/导出、图片预览、主演筛选、无码/有码标记。已内置「返回主页」按钮。
+                </div>
+                <a href="Adult-television.html" class="card-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> 打开系统
+                    <span style="opacity:0.8; font-size:0.9rem;">新标签页</span>
+                </a>
+                <!-- 已移除“已集成主页返回功能”提示 -->
+            </div>
+
+            <!-- 卡片2: 番剧历史记录索引管理系统 -->
+            <div class="card fade-in delay-2">
+                <div class="card-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h2>番剧索引·里番表番</h2>
+                <div class="card-desc">
+                    管理表番、里番、泡面番，记录内容修改状态(无修正/无码/有码)。支持JSON、图片上传。侧边栏与顶部均添加返回主页。
+                </div>
+                <a href="Opera-management.html" class="card-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> 打开系统
+                    <span style="opacity:0.8; font-size:0.9rem;">新标签页</span>
+                </a>
+                <!-- 已移除“一键返回本门户”提示 -->
+            </div>
+
+            <!-- 卡片3: 影视电影资料管理系统 (新增) -->
+            <div class="card fade-in delay-3">
+                <div class="card-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h2>影视电影资料库·通用</h2>
+                <div class="card-desc">
+                    完整管理电影、电视剧、综艺资料。支持JSON导入/导出、图片预览、主演筛选、分类标签。已按门户规范添加「返回主页」。
+                </div>
+                <a href="Film-television.html" class="card-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> 打开系统
+                    <span style="opacity:0.8; font-size:0.9rem;">新标签页</span>
+                </a>
+                <!-- 已移除“顶部/侧边栏均含主页入口”提示 -->
+            </div>
+        </div>
+
+        <!-- 统一返回机制说明（已按指令移除） -->
+
+        <footer class="footer fade-in delay-4">
+            <p><i class="fas fa-code-branch"></i> 管理系统门户 · 整合三平台  |  点击卡片在新窗口打开  |  © 2026 资料管理集成</p>
+        </footer>
+    </div>
+
+    <script>
+        // 门户深色主题切换（与子系统同步）
+        (function() {
+            const portalThemeBtn = document.getElementById('portalThemeToggle');
+            const body = document.body;
+
+            // 读取本地存储主题
+            const savedTheme = localStorage.getItem('portal_theme') || localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-theme');
+                portalThemeBtn.innerHTML = '<i class="fas fa-sun"></i> 浅色主题';
+            } else {
+                body.classList.remove('dark-theme');
+                portalThemeBtn.innerHTML = '<i class="fas fa-moon"></i> 深色主题';
+            }
+
+            portalThemeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                body.classList.toggle('dark-theme');
+                const isDark = body.classList.contains('dark-theme');
+                if (isDark) {
+                    portalThemeBtn.innerHTML = '<i class="fas fa-sun"></i> 浅色主题';
+                    localStorage.setItem('portal_theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    portalThemeBtn.innerHTML = '<i class="fas fa-moon"></i> 深色主题';
+                    localStorage.setItem('portal_theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        })();
+    </script>
+
+</body>
+</html>
